@@ -2,3 +2,6 @@
 
 # Editor
 *.sw[po]
+
+tmp
+refs
