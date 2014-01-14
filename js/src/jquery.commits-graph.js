@@ -1,3 +1,4 @@
+
 // -- Route --------------------------------------------------------
 
 function Route( commit, data, options ) {
@@ -14,24 +15,35 @@ function Route( commit, data, options ) {
 Route.prototype.drawRoute = function ( ctx ) {
   var self = this;
 
-  from_x = self.options.width - (self.from + 1) * 20;
-  from_y = (self.commit.idx + 1) * 20;
+  var from_x = self.options.width - (self.from + 1) * self.options.x_step;
+  var from_y = (self.commit.idx + 1) * self.options.y_step;
 
-  to_x = self.options.width - (self.to + 1) * 20;
-  to_y = (self.commit.idx + 1 + 1) * 20;
+  var to_x = self.options.width - (self.to + 1) * self.options.x_step;
+  var to_y = (self.commit.idx + 1 + 1) * self.options.y_step;
 
+
+  ctx.strokeStyle = self.commit.graph.get_color(self.branch);
   ctx.beginPath();
   ctx.moveTo(from_x, from_y);
-  ctx.lineTo(to_x + 1, to_y + 1);
+  if (from_x == to_x) {
+    ctx.lineTo(to_x, to_y);
+  } else {
+    ctx.bezierCurveTo(from_x - self.options.x_step / 4,
+                      from_y + self.options.y_step / 3 * 2,
+                      to_x + self.options.x_step / 4,
+                      to_y - self.options.y_step / 3 * 2,
+                      to_x, to_y);
+  }
   ctx.stroke();
 }
 
 // -- Commit Node --------------------------------------------------------
 
-function Commit(idx, data, options ) {
+function Commit(graph, idx, data, options ) {
   var self = this;
 
   self._data = data;
+  self.graph = graph;
   self.idx = idx;
   self.options = options;
   self.sha = data[0];
@@ -44,12 +56,16 @@ function Commit(idx, data, options ) {
 Commit.prototype.drawDot = function ( ctx ) {
   var self = this;
 
-  x = self.options.width - (self.dot_offset + 1) * 20;
-  y = (self.idx + 1) * 20;
+  var x = self.options.width - (self.dot_offset + 1) * self.options.x_step;
+  var y = (self.idx + 1) * self.options.y_step;
 
+  // ctx.strokeStyle = self.graph.get_color(self.dot_branch);
+  ctx.fillStyle = self.graph.get_color(self.dot_branch);
   ctx.beginPath();
-  ctx.arc(x, y, 1, 0, 2 * Math.PI, true);
-  ctx.stroke();
+  var radius = 3;
+  ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
+  // ctx.stroke();
+  ctx.fill();
 }
 
 // -- Graph Canvas --------------------------------------------------------
@@ -62,6 +78,31 @@ function GraphCanvas( data, options ) {
   self.canvas = document.createElement("canvas");
   self.canvas.height = options.height;
   self.canvas.width = options.width;
+
+  self.colors = [
+    "#e11d21"
+    , "#eb6420"
+    , "#fbca04"
+    , "#009800"
+    , "#006b75"
+    , "#207de5"
+    , "#0052cc"
+    , "#5319e7"
+    , "#f7c6c7"
+    , "#fad8c7"
+    , "#fef2c0"
+    , "#bfe5bf"
+    , "#c7def8"
+    , "#bfdadc"
+    , "#bfd4f2"
+    , "#d4c5f9"
+    , "#cccccc"
+    , "#84b6eb"
+    , "#e6e6e6"
+    , "#ffffff"
+    , "#cc317c"
+  ]
+  // self.branch_color = {};
 }
 
 GraphCanvas.prototype.toHTML = function () {
@@ -70,6 +111,12 @@ GraphCanvas.prototype.toHTML = function () {
   self.draw();
 
   return $(self.canvas);
+};
+
+GraphCanvas.prototype.get_color = function (branch) {
+  var self = this;
+
+  return self.colors[branch];
 };
 
 /*
@@ -90,20 +137,19 @@ GraphCanvas.prototype.draw = function () {
   var self = this,
       ctx = self.canvas.getContext("2d");
 
+  ctx.lineWidth = 2;
   console.log(self.data);
 
   var n_commits = self.data.length;
   for (var i=0; i<n_commits; i++) {
-    var commit = new Commit(i, self.data[i], self.options);
+    var commit = new Commit(self, i, self.data[i], self.options);
+
     commit.drawDot(ctx);
     for (var j=0; j<commit.routes.length; j++) {
       var route = commit.routes[j];
       route.drawRoute(ctx);
     }
   }
-
-  ctx.fillStyle = '#FF0000';
-  //ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
 };
 
 // -- Graph Plugin ------------------------------------------------------------
@@ -112,7 +158,10 @@ function Graph( element, options ) {
 	var self = this,
 			defaults = {
         height: 800,
-        width: 200
+        width: 200,
+        // y_step: 30,
+        y_step: 20,
+        x_step: 20,
 			};
 
 	self.element    = element;
