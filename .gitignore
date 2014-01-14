@@ -1,0 +1,7 @@
+*.py[cod]
+
+# Editor
+*.sw[po]
+
+tmp
+refs
