@@ -1,13 +1,29 @@
 // -- Route --------------------------------------------------------
 
-function Route( data, options ) {
+function Route( commit, data, options ) {
   var self = this;
 
   self._data = data;
+  self.commit = commit;
   self.options = options;
   self.from = data[0];
   self.to = data[1];
   self.branch = data[2];
+}
+
+Route.prototype.drawRoute = function ( ctx ) {
+  var self = this;
+
+  from_x = self.options.width - (self.from + 1) * 20;
+  from_y = (self.commit.idx + 1) * 20;
+
+  to_x = self.options.width - (self.to + 1) * 20;
+  to_y = (self.commit.idx + 1 + 1) * 20;
+
+  ctx.beginPath();
+  ctx.moveTo(from_x, from_y);
+  ctx.lineTo(to_x + 1, to_y + 1);
+  ctx.stroke();
 }
 
 // -- Commit Node --------------------------------------------------------
@@ -22,7 +38,7 @@ function Commit(idx, data, options ) {
   self.dot = data[1];
   self.dot_offset = self.dot[0];
   self.dot_branch = self.dot[1];
-  self.routes = $.map(data[2], function(e) { return new Route(e, options) });
+  self.routes = $.map(data[2], function(e) { return new Route(self, e, options) });
 }
 
 Commit.prototype.drawDot = function ( ctx ) {
@@ -80,6 +96,10 @@ GraphCanvas.prototype.draw = function () {
   for (var i=0; i<n_commits; i++) {
     var commit = new Commit(i, self.data[i], self.options);
     commit.drawDot(ctx);
+    for (var j=0; j<commit.routes.length; j++) {
+      var route = commit.routes[j];
+      route.drawRoute(ctx);
+    }
   }
 
   ctx.fillStyle = '#FF0000';
