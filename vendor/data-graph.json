@@ -1,5 +1,20 @@
+/*
+
+[
+  sha,
+  [offset, branch], //点
+  [
+    [from, to, branch],  // 线1
+    [from, to, branch],  // 线2
+    [from, to, branch],
+  ]  // 线
+]
+
+*/
 [
   [
-    "10c2993a6ba2", [0, 1], [[0, 0, 1]]
+    "10c2993a6ba2",
+    [0, 1],
+    [[0, 0, 1]]
   ]
 ]
