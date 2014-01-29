@@ -1,5 +1,5 @@
 /*
- *  jQuery Commits Graph - v0.1.0
+ *  jQuery Commits Graph - v0.1.3
  *  A jQuery plugin to display git commits graph using HTML5/Canvas.
  *  https://github.com/tclh123/commits-graph
  *
@@ -23,11 +23,11 @@ function Route( commit, data, options ) {
 Route.prototype.drawRoute = function ( ctx ) {
   var self = this;
 
-  var from_x = self.options.width - (self.from + 1) * self.options.x_step;
-  var from_y = (self.commit.idx + 1) * self.options.y_step;
+  var from_x = self.options.width * self.options.scaleFactor - (self.from + 1) * self.options.x_step * self.options.scaleFactor;
+  var from_y = (self.commit.idx + 0.5) * self.options.y_step * self.options.scaleFactor;
 
-  var to_x = self.options.width - (self.to + 1) * self.options.x_step;
-  var to_y = (self.commit.idx + 1 + 1) * self.options.y_step;
+  var to_x = self.options.width * self.options.scaleFactor - (self.to + 1) * self.options.x_step * self.options.scaleFactor;
+  var to_y = (self.commit.idx + 0.5 + 1) * self.options.y_step * self.options.scaleFactor;
 
 
   ctx.strokeStyle = self.commit.graph.get_color(self.branch);
@@ -36,10 +36,10 @@ Route.prototype.drawRoute = function ( ctx ) {
   if (from_x == to_x) {
     ctx.lineTo(to_x, to_y);
   } else {
-    ctx.bezierCurveTo(from_x - self.options.x_step / 4,
-                      from_y + self.options.y_step / 3 * 2,
-                      to_x + self.options.x_step / 4,
-                      to_y - self.options.y_step / 3 * 2,
+    ctx.bezierCurveTo(from_x - self.options.x_step * self.options.scaleFactor / 4,
+                      from_y + self.options.y_step * self.options.scaleFactor / 3 * 2,
+                      to_x + self.options.x_step * self.options.scaleFactor / 4,
+                      to_y - self.options.y_step * self.options.scaleFactor / 3 * 2,
                       to_x, to_y);
   }
   ctx.stroke();
@@ -64,19 +64,28 @@ function Commit(graph, idx, data, options ) {
 Commit.prototype.drawDot = function ( ctx ) {
   var self = this;
 
-  var x = self.options.width - (self.dot_offset + 1) * self.options.x_step;
-  var y = (self.idx + 1) * self.options.y_step;
+  var x = self.options.width * self.options.scaleFactor - (self.dot_offset + 1) * self.options.x_step * self.options.scaleFactor;
+  var y = (self.idx + 0.5) * self.options.y_step * self.options.scaleFactor;
 
   // ctx.strokeStyle = self.graph.get_color(self.dot_branch);
   ctx.fillStyle = self.graph.get_color(self.dot_branch);
   ctx.beginPath();
   var radius = 3;
-  ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
+  ctx.arc(x, y, radius * self.options.scaleFactor, 0, 2 * Math.PI, true);
   // ctx.stroke();
   ctx.fill();
 }
 
 // -- Graph Canvas --------------------------------------------------------
+
+function backingScale() {
+    if ('devicePixelRatio' in window) {
+        if (window.devicePixelRatio > 1) {
+            return window.devicePixelRatio;
+        }
+    }
+    return 1;
+}
 
 function GraphCanvas( data, options ) {
   var self = this;
@@ -84,12 +93,23 @@ function GraphCanvas( data, options ) {
   self.data = data;
   self.options = options;
   self.canvas = document.createElement("canvas");
+  self.canvas.style.height = options.height + "px";
+  self.canvas.style.width = options.width + "px";
   self.canvas.height = options.height;
   self.canvas.width = options.width;
 
+  var scaleFactor = backingScale();
+  if (scaleFactor > 1) {
+      self.canvas.width = self.canvas.width * scaleFactor;
+      self.canvas.height = self.canvas.height * scaleFactor;
+  }
+  self.options.scaleFactor = scaleFactor
+
+  // or use context.scale(2,2) // not tested
+
   self.colors = [
     "#e11d21"
-    , "#eb6420"
+    //, "#eb6420"
     , "#fbca04"
     , "#009800"
     , "#006b75"
@@ -124,19 +144,20 @@ GraphCanvas.prototype.toHTML = function () {
 GraphCanvas.prototype.get_color = function (branch) {
   var self = this;
 
-  return self.colors[branch];
+  var n = self.colors.length;
+  return self.colors[branch % n];
 };
 
 /*
 
 [
   sha,
-  [offset, branch], //点
+  [offset, branch], //dot
   [
-    [from, to, branch],  // 线1
-    [from, to, branch],  // 线2
+    [from, to, branch],  // route1
+    [from, to, branch],  // route2
     [from, to, branch],
-  ]  // 线
+  ]  // routes
 ],
 
 */
