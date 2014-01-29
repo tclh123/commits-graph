@@ -1,4 +1,6 @@
+# Python
 *.py[cod]
+venv
 
 # Editor
 *.sw[po]
