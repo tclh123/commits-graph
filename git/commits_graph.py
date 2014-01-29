@@ -1,11 +1,12 @@
-# -*- coding: utf-8 -*-
-#
-# jQuery Commits Graph - v0.1.3
-# A jQuery plugin to display git commits graph using HTML5/Canvas.
-# https://github.com/tclh123/commits-graph
-#
-# Copyright (c) 2014
-# MIT License
+#-*- coding: utf-8 -*-
+"""
+Generate preformatted data of commits graph.
+
+https://github.com/tclh123/commits-graph
+
+Copyright (c) 2014
+MIT License
+"""
 
 import json
 
