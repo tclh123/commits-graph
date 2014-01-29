@@ -2,6 +2,12 @@
 
 import os
 import sys
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
+import gzip
 
 root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root)
@@ -22,10 +28,14 @@ def app(environ, start_response):
     path = environ['PATH_INFO']
     if path.endswith('.js'):
         headers.append(('content-type', 'application/javascript'))
-        # headers.append(('content-encoding', 'gzip'))
+        headers.append(('content-encoding', 'gzip'))
+        buffer = StringIO()
         start_response(status, headers)
         content = open('..' + path).read()
-        return content
+        with gzip.GzipFile(mode='wb', compresslevel=6,
+                           fileobj=buffer) as f:
+            f.write(content)
+        return [buffer.getvalue()]
     headers.append(('content-type', 'text/html'))
     start_response(status, headers)
     data = generate_graph_data(Commit.gets(root))

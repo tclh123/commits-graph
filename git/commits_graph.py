@@ -11,7 +11,8 @@ import json
 
 
 def generate_graph_data(commits):
-    """
+    """Generate graph data.
+
     :param commits: a list of commit, which should have
         `sha`, `parents` properties.
     :returns: data nodes, a json list of
