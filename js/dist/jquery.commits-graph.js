@@ -32,7 +32,7 @@ Route.prototype.drawRoute = function ( ctx ) {
   ctx.strokeStyle = self.commit.graph.get_color(self.branch);
   ctx.beginPath();
   ctx.moveTo(from_x, from_y);
-  if (from_x == to_x) {
+  if (from_x === to_x) {
     ctx.lineTo(to_x, to_y);
   } else {
     ctx.bezierCurveTo(from_x - self.options.x_step * self.options.scaleFactor / 4,
@@ -42,7 +42,7 @@ Route.prototype.drawRoute = function ( ctx ) {
                       to_x, to_y);
   }
   ctx.stroke();
-}
+};
 
 // -- Commit Node --------------------------------------------------------
 
@@ -57,7 +57,7 @@ function Commit(graph, idx, data, options ) {
   self.dot = data[1];
   self.dot_offset = self.dot[0];
   self.dot_branch = self.dot[1];
-  self.routes = $.map(data[2], function(e) { return new Route(self, e, options) });
+  self.routes = $.map(data[2], function(e) { return new Route(self, e, options); });
 }
 
 Commit.prototype.drawDot = function ( ctx ) {
@@ -73,7 +73,7 @@ Commit.prototype.drawDot = function ( ctx ) {
   ctx.arc(x, y, radius * self.options.scaleFactor, 0, 2 * Math.PI, true);
   // ctx.stroke();
   ctx.fill();
-}
+};
 
 // -- Graph Canvas --------------------------------------------------------
 
@@ -102,33 +102,33 @@ function GraphCanvas( data, options ) {
       self.canvas.width = self.canvas.width * scaleFactor;
       self.canvas.height = self.canvas.height * scaleFactor;
   }
-  self.options.scaleFactor = scaleFactor
+  self.options.scaleFactor = scaleFactor;
 
   // or use context.scale(2,2) // not tested
 
   self.colors = [
-    "#e11d21"
-    //, "#eb6420"
-    , "#fbca04"
-    , "#009800"
-    , "#006b75"
-    , "#207de5"
-    , "#0052cc"
-    , "#5319e7"
-    , "#f7c6c7"
-    , "#fad8c7"
-    , "#fef2c0"
-    , "#bfe5bf"
-    , "#c7def8"
-    , "#bfdadc"
-    , "#bfd4f2"
-    , "#d4c5f9"
-    , "#cccccc"
-    , "#84b6eb"
-    , "#e6e6e6"
-    , "#ffffff"
-    , "#cc317c"
-  ]
+    "#e11d21",
+    //"#eb6420",
+    "#fbca04",
+    "#009800",
+    "#006b75",
+    "#207de5",
+    "#0052cc",
+    "#5319e7",
+    "#f7c6c7",
+    "#fad8c7",
+    "#fef2c0",
+    "#bfe5bf",
+    "#c7def8",
+    "#bfdadc",
+    "#bfd4f2",
+    "#d4c5f9",
+    "#cccccc",
+    "#84b6eb",
+    "#e6e6e6",
+    "#ffffff",
+    "#cc317c"
+  ];
   // self.branch_color = {};
 }
 
