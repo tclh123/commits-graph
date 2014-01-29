@@ -23,9 +23,15 @@ engine = tenjin.Engine()
 
 
 def app(environ, start_response):
+    """ try
+    http://localhost:8887
+    http://localhost:8887/?{path}
+    """
     status = '200 OK'
     headers = []
-    path = environ['PATH_INFO']
+    path = environ['RAW_URI']
+    [path, query] = (path.split('?') if '?' in path
+                     else [path, None])
     if path.endswith('.js'):
         headers.append(('content-type', 'application/javascript'))
         headers.append(('content-encoding', 'gzip'))
@@ -38,5 +44,5 @@ def app(environ, start_response):
         return [buffer.getvalue()]
     headers.append(('content-type', 'text/html'))
     start_response(status, headers)
-    data = generate_graph_data(Commit.gets(root))
+    data = generate_graph_data(Commit.gets(query or root))
     return engine.render('index.html', {'data': data})
