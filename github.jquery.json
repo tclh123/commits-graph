@@ -1,38 +1,38 @@
 {
-	"name": "commits-graph",
-	"title": "Commits Graph",
-	"description": "A git commits graph widget using HTML5/Canvas.",
-	"keywords": [
-		"git",
-		"commit",
-		"branch",
-		"graph",
+  "name": "commits-graph",
+  "title": "Commits Graph",
+  "description": "A git commits graph widget using HTML5/Canvas.",
+  "keywords": [
+  	"git",
+  	"commit",
+  	"branch",
+  	"graph",
     "visualization",
     "tree"
-	],
-	"version": "0.1.3",
-	"author": {
-		"name": "Harry Lee",
-		"url": "https://github.com/tclh123"
-	},
-	"maintainers": [
-		{
-			"name": "Harry Lee",
-			"email": "tclh123@gmail.com",
-			"url": "https://github.com/tclh123"
-		}
-	],
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://tclh123.mit-license.org/"
-		}
-	],
-	"bugs": "https://github.com/tclh123/commits-graph/issues",
-	"homepage": "https://github.com/tclh123/commits-graph/",
-	"docs": "https://github.com/tclh123/commits-graph#readme",
-	"download": "https://github.com/tclh123/commits-graph/archive/master.zip",
-	"dependencies": {
-		"jquery": ">=1.9"
-	}
+  ],
+  "version": "0.1.4",
+  "author": {
+  	"name": "Harry Lee",
+  	"url": "https://github.com/tclh123"
+  },
+  "maintainers": [
+  	{
+  		"name": "Harry Lee",
+  		"email": "tclh123@gmail.com",
+  		"url": "https://github.com/tclh123"
+  	}
+  ],
+  "licenses": [
+  	{
+  		"type": "MIT",
+  		"url": "http://tclh123.mit-license.org/"
+  	}
+  ],
+  "bugs": "https://github.com/tclh123/commits-graph/issues",
+  "homepage": "https://github.com/tclh123/commits-graph/",
+  "docs": "https://github.com/tclh123/commits-graph#readme",
+  "download": "https://github.com/tclh123/commits-graph/archive/master.zip",
+  "dependencies": {
+  	"jquery": ">=1.9"
+  }
 }

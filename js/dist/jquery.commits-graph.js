@@ -1,5 +1,5 @@
 /*
- *  jQuery Commits Graph - v0.1.3
+ *  jQuery Commits Graph - v0.1.4
  *  A jQuery plugin to display git commits graph using HTML5/Canvas.
  *  https://github.com/tclh123/commits-graph
  *
