@@ -6,7 +6,6 @@
  *  Copyright (c) 2014
  *  MIT License
  */
-
 // -- Route --------------------------------------------------------
 
 function Route( commit, data, options ) {

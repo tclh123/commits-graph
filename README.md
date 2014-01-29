@@ -26,3 +26,7 @@ Provide a jQuery plugin which make it easy to use.
 ## Preview
 
 ![](https://raw2.github.com/tclh123/commits-graph/master/ScreenShot.png)
+
+## License
+
+http://tclh123.mit-license.org/
