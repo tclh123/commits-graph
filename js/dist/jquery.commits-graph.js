@@ -90,7 +90,7 @@ function Commit(graph, idx, data, options ) {
 
 Commit.prototype.drawDot = function ( ctx ) {
   var self = this;
-  var radius = 3;	// dot radius
+  var radius = self.options.dotRadius;	// dot radius
   
   if (self.options.orientation === "horizontal") {
 	var x_hori = self.options.width * self.options.scaleFactor - (self.idx + 0.5) * self.options.x_step * self.options.scaleFactor;
@@ -208,7 +208,7 @@ GraphCanvas.prototype.draw = function () {
   var self = this,
       ctx = self.canvas.getContext("2d");
 
-  ctx.lineWidth = 2;
+  ctx.lineWidth = self.options.lineWidth;
   console.log(self.data);
 
   var n_commits = self.data.length;
@@ -236,6 +236,8 @@ function Graph( element, options ) {
         orientation: "vertical",
         margin: "auto",
         id: "commits-graph",
+        dotRadius: 3,
+        lineWidth: 2,
 			};
 
 	self.element    = element;
