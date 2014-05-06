@@ -16,6 +16,18 @@ Provide a jQuery plugin which make it easy to use.
     Try visit,
     - http://localhost:8887
     - http://localhost:8887/?{path}
+    
+## Options
+
+All of the options have defaults and are not required for execution of the script. (See `demo/` for example)
+
+* `height|width: 600` - Input the desired height|width of the canvas in pixels.
+* `orientation: "horizontal"|"vertical"` - Allows the user to plot the graph either horizontally or vertically.
+* `margin: "0 0 0 0"` - Specify the margins of the div containing the graph, allowing the user to e.g. center the graph easily in the script.
+* `x\_step|y\_step: 20` - Select the step sizes of the graph, i.e. how many pixels between branches and commits.
+* `id: "commits-graph"` - Specify which id these options should apply to if the user wishes to have different options for different graphs on a page.
+* `dotRadius: 3` - Specify the radius in pixels of the commit dots.
+* `lineWidth: 2` - Specify the width of the lines in pixels.
 
 ## FAQ
 
