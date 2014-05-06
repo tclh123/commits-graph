@@ -36,16 +36,16 @@ Route.prototype.drawRoute = function ( ctx ) {
 	  ctx.lineTo(to_x_hori, to_y_hori);
 	} else if (from_y_hori > to_y_hori) {
 	  ctx.bezierCurveTo(from_x_hori - self.options.x_step * self.options.scaleFactor / 3 * 2,
-						  from_y_hori + self.options.y_step * self.options.scaleFactor / 4,
-						  to_x_hori + self.options.x_step * self.options.scaleFactor / 3 * 2,
-						  to_y_hori - self.options.y_step * self.options.scaleFactor / 4,
-						  to_x_hori, to_y_hori);
+						from_y_hori + self.options.y_step * self.options.scaleFactor / 4,
+						to_x_hori + self.options.x_step * self.options.scaleFactor / 3 * 2,
+						to_y_hori - self.options.y_step * self.options.scaleFactor / 4,
+						to_x_hori, to_y_hori);
 	} else if (from_y_hori < to_y_hori) {
 	  ctx.bezierCurveTo(from_x_hori - self.options.x_step * self.options.scaleFactor / 3 * 2,
-						  from_y_hori - self.options.y_step * self.options.scaleFactor / 4,
-						  to_x_hori + self.options.x_step * self.options.scaleFactor / 3 * 2,
-						  to_y_hori + self.options.y_step * self.options.scaleFactor / 4,
-						  to_x_hori, to_y_hori);
+						from_y_hori - self.options.y_step * self.options.scaleFactor / 4,
+						to_x_hori + self.options.x_step * self.options.scaleFactor / 3 * 2,
+						to_y_hori + self.options.y_step * self.options.scaleFactor / 4,
+						to_x_hori, to_y_hori);
 	}
 	
   } else {
@@ -62,10 +62,10 @@ Route.prototype.drawRoute = function ( ctx ) {
 	  ctx.lineTo(to_x, to_y);
 	} else {
 	  ctx.bezierCurveTo(from_x - self.options.x_step * self.options.scaleFactor / 4,
-                      from_y + self.options.y_step * self.options.scaleFactor / 3 * 2,
-                      to_x + self.options.x_step * self.options.scaleFactor / 4,
-                      to_y - self.options.y_step * self.options.scaleFactor / 3 * 2,
-                      to_x, to_y);
+                        from_y + self.options.y_step * self.options.scaleFactor / 3 * 2,
+                        to_x + self.options.x_step * self.options.scaleFactor / 4,
+                        to_y - self.options.y_step * self.options.scaleFactor / 3 * 2,
+                        to_x, to_y);
 	}
   }
 
@@ -234,6 +234,8 @@ function Graph( element, options ) {
         y_step: 20,
         x_step: 20,
         orientation: "vertical",
+        margin: "auto",
+        id: "commits-graph",
 			};
 
 	self.element    = element;
@@ -252,8 +254,12 @@ Graph.prototype.applyTemplate = function () {
 	var self  = this,
 			graphCanvas = new GraphCanvas( self.data, self.options ),
 			$canvas = graphCanvas.toHTML();
-
+			
 	$canvas.appendTo( self.$container );
+	
+	document.getElementById(self.options.id).style.width = self.options.width + "px";
+	document.getElementById(self.options.id).style.height = self.options.height + "px";
+	document.getElementById(self.options.id).style.margin = self.options.margin;
 };
 
 // -- Attach plugin to jQuery's prototype --------------------------------------
