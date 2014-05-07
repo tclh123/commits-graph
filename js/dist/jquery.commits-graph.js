@@ -223,6 +223,51 @@ GraphCanvas.prototype.draw = function () {
   }
 };
 
+// -- Function for finding max in data to determine total branches ------------
+
+/*!
+Maximum function is reused from the d3.js Javascript library (d3.max)
+
+Copyright (c) 2010-2014, Michael Bostock
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* The name Michael Bostock may not be used to endorse or promote products
+  derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL MICHAEL BOSTOCK BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+Maximum = function(array, f) {
+    var i = -1, n = array.length, a, b;
+    if (arguments.length === 1) {
+      while (++i < n && !((a = array[i]) != null && a <= a)) { a = undefined; }
+      while (++i < n) { if ((b = array[i]) != null && b > a) { a = b; } }
+    } else {
+      while (++i < n && !((a = f.call(array, array[i], i)) != null && a <= a)) { a = undefined; }
+      while (++i < n) { if ((b = f.call(array, array[i], i)) != null && b > a) { a = b; } }
+    }
+    return a;
+  };
+
 // -- Graph Plugin ------------------------------------------------------------
 
 function Graph( element, options ) {
@@ -241,6 +286,17 @@ function Graph( element, options ) {
 	self.element    = element;
 	self.$container = $( element );
 	self.data = self.$container.data( "graph" );
+	
+	var x_step = $.extend( {}, defaults, options ).x_step;
+	var y_step = $.extend( {}, defaults, options ).y_step;
+
+	if (options.orientation === "horizontal") {
+	  defaults.width = ( self.data.length + 2 ) * x_step;
+	  defaults.height = Maximum(Maximum(self.data, function(array) { return Maximum(array.slice(1)); })) * y_step;
+	} else {
+	  defaults.width = Maximum(Maximum(self.data, function(array) { return Maximum(array.slice(1)); })) * x_step;
+	  defaults.height = ( self.data.length + 2 ) * y_step;
+	}
 
 	self.options = $.extend( {}, defaults, options ) ;
 
