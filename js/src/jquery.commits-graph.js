@@ -226,8 +226,6 @@ function Graph( element, options ) {
         y_step: 20,
         x_step: 20,
         orientation: "vertical",
-        margin: "auto",
-        id: "commits-graph",
         dotRadius: 3,
         lineWidth: 2,
 			};
@@ -250,10 +248,6 @@ Graph.prototype.applyTemplate = function () {
 			$canvas = graphCanvas.toHTML();
 			
 	$canvas.appendTo( self.$container );
-	
-	document.getElementById(self.options.id).style.width = self.options.width + "px";
-	document.getElementById(self.options.id).style.height = self.options.height + "px";
-	document.getElementById(self.options.id).style.margin = self.options.margin;
 };
 
 // -- Attach plugin to jQuery's prototype --------------------------------------
