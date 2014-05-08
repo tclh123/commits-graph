@@ -16,6 +16,16 @@ Provide a jQuery plugin which make it easy to use.
     Try visit,
     - http://localhost:8887
     - http://localhost:8887/?{path}
+    
+## Options
+
+All of the options have defaults and are not required for execution of the script. (See `demo/` for example)
+
+* `height|width: 600` - Input the desired height|width of the canvas in pixels.
+* `orientation: "horizontal"|"vertical"` - Allows the user to plot the graph either horizontally or vertically.
+* `x\_step|y\_step: 20` - Select the step sizes of the graph, i.e. how many pixels between branches and commits.
+* `dotRadius: 3` - Specify the radius in pixels of the commit dots.
+* `lineWidth: 2` - Specify the width of the lines in pixels.
 
 ## FAQ
 
