@@ -215,6 +215,19 @@ GraphCanvas.prototype.draw = function () {
   }
 };
 
+// -- Function for finding the total number of branches -----------------------
+branchCount = function(data) {
+  var maxBranch = -1;
+  for (var i = 0; i < data.length; i++) {
+	for (var j = 0; j < data[i][2].length; j++) {
+	  if (maxBranch < data[i][2][j][0] || maxBranch < data[i][2][j][1]) {
+		maxBranch = Math.max.apply(Math, [data[i][2][j][0], data[i][2][j][1]]);
+	  }
+	}
+  }
+  return maxBranch + 1;
+};
+
 // -- Graph Plugin ------------------------------------------------------------
 
 function Graph( element, options ) {
@@ -233,6 +246,17 @@ function Graph( element, options ) {
 	self.element    = element;
 	self.$container = $( element );
 	self.data = self.$container.data( "graph" );
+	
+	var x_step = $.extend( {}, defaults, options ).x_step;
+	var y_step = $.extend( {}, defaults, options ).y_step;
+
+	if (options.orientation === "horizontal") {
+	  defaults.width = ( self.data.length + 2 ) * x_step;
+	  defaults.height = ( branchCount(self.data) + 0.5 ) * y_step;
+	} else {
+	  defaults.width = ( branchCount(self.data) + 0.5 ) * x_step;
+	  defaults.height = ( self.data.length + 2 ) * y_step;
+	}
 
 	self.options = $.extend( {}, defaults, options ) ;
 
