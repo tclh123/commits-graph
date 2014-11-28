@@ -23,7 +23,7 @@ All of the options have defaults and are not required for execution of the scrip
 
 * `height|width: 600` - Input the desired height|width of the canvas in pixels.
 * `orientation: "horizontal"|"vertical"` - Allows the user to plot the graph either horizontally or vertically.
-* `x\_step|y\_step: 20` - Select the step sizes of the graph, i.e. how many pixels between branches and commits.
+* `x_step|y_step: 20` - Select the step sizes of the graph, i.e. how many pixels between branches and commits.
 * `dotRadius: 3` - Specify the radius in pixels of the commit dots.
 * `lineWidth: 2` - Specify the width of the lines in pixels.
 
@@ -35,7 +35,7 @@ All of the options have defaults and are not required for execution of the scrip
 
 ## Preview
 
-![](https://raw2.github.com/tclh123/commits-graph/master/ScreenShot.png)
+![](ScreenShot.png)
 
 ## License
 
