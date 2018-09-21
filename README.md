@@ -43,7 +43,7 @@ All of the options have defaults and are not required for execution of the scrip
     ```
     [
         sha, //Commit hash
-        [offest, branch], // Dot (offest: x-position, branch: branch no.)
+        [offset, branch], // Dot (offset: x-position, branch: branch no.)
         [
             [from, to, branch], // Route 1 (from: x-position, to: x-position of y+1, brach: branch no.)
             [from, to, branch], // Route 2
@@ -75,29 +75,29 @@ All of the options have defaults and are not required for execution of the scrip
     Branch 0: Red
     Branch 1: Yellow
     Branch 2: Green
-    y{n}: n represent the offest of y
-    x{n}: n represent the offest of x
+    y{n}: n represent the offset of y
+    x{n}: n represent the offset of x
     
     Iteration 1 - commit1
-    - Draw a dot (offest: x{0} y{0}, Branch: 0)
+    - Draw a dot (offset: x{0} y{0}, Branch: 0)
     - Draw a line (from: x{0} y{0}, to: x{0} y{1}, Branch: 0)
     - Move painter to y{1}
     
     Iteration 2 - commit2
-    - Draw a dot (offest: x{0} y{1}, Branch: 0)
+    - Draw a dot (offset: x{0} y{1}, Branch: 0)
     - Draw a line (from: x{0} y{1}, to: x{0} y{2}, Branch: 0)
     - Draw a line (from: x{0} y{1}, to: x{1} y{2}, Branch: 1)
     - Move painter to y{2}
     
     Iteration 3 - commit 3
-    - Draw a dot (offest: x{1} y{2}, Branch: 1)
+    - Draw a dot (offset: x{1} y{2}, Branch: 1)
     - Draw a line (from: x{0} y{2}, to: x{0} y{3}, Branch: 0)
     - Draw a line (from: x{1} y{2}, to: x{1} y{3}, Branch: 1)
     - Draw a line (from: x{1} y{2}, to: x{2} y{3}, Branch: 2)
     - Move painter to y{3}
     
     Iteration 4 - commit 4
-    - Draw a dot (offest: x{0} y{3}, Branch: 0)
+    - Draw a dot (offset: x{0} y{3}, Branch: 0)
     - Draw a line (from: x{0} y{3}, to: x{0} y{4}, Branch: 0)
     - Draw a line (from: x{1} y{3}, to: x{1} y{4}, Branch: 1)
     - Draw a line (from: x{1} y{3}, to: x{2} y{4}, Branch: 2)
